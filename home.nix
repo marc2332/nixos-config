@@ -71,7 +71,11 @@ in
     };
 
     # Git
-    
+    home.activation.importGPGKey = ''
+      if [ -f ${gitPGP} ]; then
+        gpg --import ${gitPGP}
+      fi
+    '';
 
     # Git
     programs.git = {
@@ -80,7 +84,7 @@ in
       userEmail = "marc@mespin.me";
       signing = {
         signByDefault = true;
-        key = "976B56A90E382E6D58ECD4E10C052B1BE73F39F0";
+        key = "0C052B1BE73F39F0";
       };
     };
   };

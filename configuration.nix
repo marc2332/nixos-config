@@ -40,7 +40,6 @@
 
   };
 
-
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -51,7 +50,7 @@
 
   services.openssh.enable = true;
   services.libinput.touchpad.disableWhileTyping = false;
-  
+
   #services.desktopManager.cosmic.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -71,7 +70,7 @@
 
     gnupg
 
-    pinentry-curses
+    pinentry-gnome3
   ];
 
   environment.gnome.excludePackages = with pkgs; [
@@ -106,7 +105,7 @@
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;    
+    dedicatedServer.openFirewall = true;
   };
   programs.niri.enable = false;
   programs.hyprland = {
@@ -118,7 +117,7 @@
     enable = true;
     pinentryPackage = pkgs.pinentry-gnome3;
   };
-  
+
   # Root User
   home-manager.users.root = {
     home.stateVersion = "25.05";
@@ -131,7 +130,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
   # Gnome
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
@@ -140,7 +138,7 @@
   services.displayManager.sessionPackages = with pkgs; [ niri ];
 
   # NVIDIA
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
