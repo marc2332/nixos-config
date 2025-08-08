@@ -6,10 +6,8 @@
 }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-  
+  imports = [ ./hardware-configuration.nix ];
+
   # VM <-> Host Clipboard
   services.spice-vdagentd.enable = true;
 }

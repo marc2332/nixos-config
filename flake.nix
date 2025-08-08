@@ -9,38 +9,54 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-        };
-      in {
-        packages.default = pkgs.hello;
-      }
-    ) // {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+    in
+    {
+      # NixOS
       nixosConfigurations = {
         laptop-hp = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-                home-manager.nixosModules.home-manager
-                ./configuration.nix
-                ./laptop-hp/hardware-configuration.nix
-                ./laptop-hp/configuration.nix
-            ];
+          system = "x86_64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            ./configuration.nix
+            ./laptop-hp/hardware-configuration.nix
+            ./laptop-hp/configuration.nix
+          ];
         };
 
         vm = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-                home-manager.nixosModules.home-manager
-                ./configuration.nix
-                ./vm/hardware-configuration.nix
-                ./vm/configuration.nix
-		{
-		  networking.hostName = "vm";
-		}
-            ];
+          system = "x86_64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            ./configuration.nix
+            ./vm/hardware-configuration.nix
+            ./vm/configuration.nix
+            { networking.hostName = "vm"; }
+          ];
+        };
+      };
+
+      # Home Manager
+      homeConfigurations = {
+        "marc@laptop-hp" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home.nix ];
+        };
+
+        "marc@vm" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home.nix ];
         };
       };
     };

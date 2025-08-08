@@ -9,9 +9,12 @@
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   imports = [
-    <home-manager/nixos>
-    ./home.nix
     ./jellyfin.nix
   ];
 
@@ -19,8 +22,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Other
   services.openssh.enable = true;
-
   hardware.graphics.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -66,6 +69,19 @@
     simple-scan
   ];
 
+  # Users
+  users.users.marc = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "networkManager"
+      "video"
+    ];
+    description = "Marc";
+    shell = pkgs.nushell;
+    initialPassword = "initialPassword";
+  };
+
   # Firefox
   programs.firefox = {
     enable = true;
@@ -77,7 +93,6 @@
       }
     }
   '';
-
 
   # Generic programs
   documentation.nixos.enable = false;

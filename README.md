@@ -1,16 +1,20 @@
-VM:
+NixOS
 
 ```
-sudo nixos-rebuild switch --flake .#vm
+sudo nixos-rebuild switch --flake .#<vm | laptop-hp>
 ```
 
-HP Laptop:
-
+Home Manager
 ```
-sudo nixos-rebuild switch --flake .#laptop-hp
+home-manager switch --flake .#marc@<vm | laptop-hp>
 ```
 
 Repair:
 ```
 sudo nix-store --verify --check-contents --repair
+```
+
+Formatting:
+```
+treefmt .
 ```
