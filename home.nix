@@ -180,18 +180,29 @@ in
 
     mkdir -p ~/Pictures
     mkdir -p ~/Videos
+
+
+    cp -r /home/marc/nixos-config/wallpapers /home/marc/Wallpapers
   '';
 
   dconf.settings = {
+    # Wallpaper
+    "org/gnome/desktop/background" = {
+      picture-uri = "file:///home/marc/Wallpapers/bridge";
+      picture-uri-dark = "file:///home/marc/Wallpapers/bridge";
+    };
+    # Peripherals
     "org/gnome/desktop/peripherals/touchpad" = {
       disable-while-typing = false;
     };
+    # Shell
     "org/gnome/shell" = {
       # Dock apps
       favorite-apps = [
         "firefox.desktop"
         "code.desktop"
         "org.wezfurlong.wezterm.desktop"
+        "org.gnome.Nautilus.desktop"
       ];
 
       # Enable GNOME Extensions
@@ -199,8 +210,17 @@ in
         pkgs.gnomeExtensions.dash-to-dock.extensionUuid
       ];
     };
+    # Desktop Preferences
+    "org/gnome/desktop/wm/preferences" = {
+      button-layout = "minimize,maximize,close";
+    };
+    # Desktop Keybinds
+    "org/gnome/desktop/wm/keybinds" = {
+      show-desktop = "['<Super>d']";
+    };
+    # Dash To Dock
     "org/gnome/shell/extensions/dash-to-dock" = {
-      dash-max-icon-size = 36;
+      dash-max-icon-size = 30;
       show-trash = false;
       always-center-icons = false;
       dock-position = "LEFT";
@@ -208,6 +228,7 @@ in
       extend-height = true;
       scroll-action = "cycle-windows";
       click-action = "focus-minimize-or-previews";
+      ustom-theme-shrink = true;
     };
   };
 
