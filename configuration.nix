@@ -10,6 +10,7 @@
   nixpkgs.config.allowUnfree = true;
 
   imports = [
+    <home-manager/nixos>
     ./home.nix
     ./jellyfin.nix
   ];
@@ -38,9 +39,16 @@
     # VSC
     vscode
 
+    # Git Signing
     gnupg
-
     pinentry-gnome3
+
+    # Wezterm
+    wezterm
+
+    # Fonts
+    cascadia-code
+    inter
   ];
 
   environment.gnome.excludePackages = with pkgs; [
@@ -58,7 +66,7 @@
     simple-scan
   ];
 
-  # Programs
+  # Firefox
   programs.firefox = {
     enable = true;
   };
@@ -69,6 +77,8 @@
       }
     }
   '';
+
+
   # Generic programs
   documentation.nixos.enable = false;
   programs.gnupg.agent = {
