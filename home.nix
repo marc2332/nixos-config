@@ -186,6 +186,29 @@ in
     "org/gnome/desktop/peripherals/touchpad" = {
       disable-while-typing = false;
     };
+    "org/gnome/shell" = {
+      # Dock apps
+      favorite-apps = [
+        "firefox.desktop"
+        "code.desktop"
+        "org.wezfurlong.wezterm.desktop"
+      ];
+
+      # Enable GNOME Extensions
+      enabled-extensions = [
+        pkgs.gnomeExtensions.dash-to-dock.extensionUuid
+      ];
+    };
+    "org/gnome/shell/extensions/dash-to-dock" = {
+      dash-max-icon-size = 36;
+      show-trash = false;
+      always-center-icons = false;
+      dock-position = "LEFT";
+      dock-fixed = true;
+      extend-height = true;
+      scroll-action = "cycle-windows";
+      click-action = "focus-minimize-or-previews";
+    };
   };
 
   # Git

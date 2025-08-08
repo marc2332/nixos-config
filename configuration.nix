@@ -33,6 +33,9 @@
     gnome-session
     libsecret
 
+    # GNOME
+    gnomeExtensions.dash-to-dock
+
     # Nix formatting
     pkgs.nixfmt-rfc-style
 
