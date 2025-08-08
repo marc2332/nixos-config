@@ -71,11 +71,11 @@ in
     };
 
     # Git
-    home.activation.importGPGKey = ''
-      if [ -f ${gitPGP} ]; then
-        gpg --import ${gitPGP}
-      fi
-    '';
+    # home.activation.importGPGKey = ''
+    #   if [ -f ${gitPGP} ]; then
+    #     gpg --import ${gitPGP}
+    #   fi
+    # '';
 
     # Git
     programs.git = {

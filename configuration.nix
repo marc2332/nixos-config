@@ -9,54 +9,24 @@
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
 
-  # Boot
-  boot = {
-
-    plymouth = {
-      enable = true;
-      theme = "abstract_ring";
-      themePackages = with pkgs; [
-        # By default we would install all themes
-        (adi1090x-plymouth-themes.override {
-          selected_themes = [ "abstract_ring" ];
-        })
-      ];
-    };
-
-    # Enable "Silent boot"
-    consoleLogLevel = 3;
-    initrd.verbose = false;
-    kernelParams = [
-      "quiet"
-      "splash"
-      "boot.shell_on_fail"
-      "udev.log_priority=3"
-      "rd.systemd.show_status=auto"
-    ];
-    # Hide the OS choice for bootloaders.
-    # It's still possible to open the bootloader list by pressing any key
-    # It will just not appear on screen unless a key is pressed
-    loader.timeout = 0;
-
-  };
-
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    <home-manager/nixos>
     ./home.nix
     ./jellyfin.nix
   ];
 
-  services.openssh.enable = true;
-  services.libinput.touchpad.disableWhileTyping = false;
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  #services.desktopManager.cosmic.enable = true;
+  services.openssh.enable = true;
+
+  hardware.graphics.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Remote desktop
     gnome-remote-desktop
     gnome-keyring
+    gnome-session
     libsecret
 
     # Nix formatting
@@ -101,18 +71,6 @@
   '';
   # Generic programs
   documentation.nixos.enable = false;
-  # Steams
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-  programs.niri.enable = false;
-  programs.hyprland = {
-    enable = false;
-    xwayland.enable = false;
-  };
-
   programs.gnupg.agent = {
     enable = true;
     pinentryPackage = pkgs.pinentry-gnome3;
@@ -126,38 +84,27 @@
     };
   };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Gnome
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm.wayland = false;
-  services.displayManager.sessionPackages = with pkgs; [ niri ];
-
-  # NVIDIA
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = false;
-    powerManagement.enable = true;
-    nvidiaSettings = true;
-    prime = {
-      sync.enable = true;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-
+  # GNOME
+  services.xserver = {
+    enable = true;
+    xkb.layout = "es";
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = false;
   };
-  hardware.graphics.enable = true;
-
+  services.displayManager.defaultSession = "gnome";
+  services.displayManager.sessionPackages = [ pkgs.gnome-session.sessions ];
   # GNOME Remote Desktop
   services.gnome.gnome-remote-desktop.enable = true;
   systemd.services.gnome-remote-desktop = {
     wantedBy = [ "graphical.target" ];
   };
+  # GNOME Keyring
+  services.gnome.gnome-keyring = {
+    enable = true;
+  };
+  security.pam.services.login.enableGnomeKeyring = true;
+
   networking.firewall.allowedTCPPorts = [
     # RDP
     3389
@@ -169,23 +116,11 @@
     22
   ];
 
-  # GNOME Keyring
-  services.gnome.gnome-keyring = {
-    enable = true;
-  };
-  security.pam.services.login.enableGnomeKeyring = true;
   xdg = {
     mime.enable = true;
     portal = {
       enable = true;
       xdgOpenUsePortal = true;
-      # wlr = {
-      #  enable = builtins.elem "sway" wm.actives;
-      #  settings.screencast = {
-      #    chooser_type = "simple";
-      #    chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -ro";
-      #  };
-      #};
       config.common = {
         "default" = [
           "gnome"
@@ -202,12 +137,6 @@
         xdg-desktop-portal-gnome
       ];
     };
-  };
-
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-    openFirewall = true;
   };
 
   #  networking.networkmanager.enable = true;
