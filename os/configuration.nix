@@ -23,6 +23,14 @@
     ./users.nix
   ];
 
+  # nh
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/marc/nixos-config";
+  };
+
   # Other
   services.openssh.enable = true;
   hardware.graphics.enable = true;
