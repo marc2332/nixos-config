@@ -9,6 +9,13 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -18,12 +25,17 @@
       flake-utils,
       home-manager,
       declarative-jellyfin,
+      fenix,
       ...
     }@inputs:
     let
       inherit (self) outputs;
     in
     {
+      packages.x86_64-linux.default = [
+        fenix.packages.x86_64-linux.minimal.toolchain
+      ];
+
       # NixOS
       nixosConfigurations = {
         laptop-hp = nixpkgs.lib.nixosSystem {
@@ -46,6 +58,12 @@
             ./os/vm/hardware-configuration.nix
             ./os/vm/configuration.nix
             { networking.hostName = "vm"; }
+            (
+              { pkgs, ... }:
+              {
+                nixpkgs.overlays = [ fenix.overlays.default ];
+              }
+            )
           ];
         };
       };

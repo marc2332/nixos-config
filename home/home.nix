@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -18,9 +19,13 @@ in
     homeDirectory = "/home/marc";
   };
 
+  nixpkgs.overlays = [ inputs.fenix.overlays.default ];
+
   home.packages = with pkgs; [
     # Nix Formatting
     nixfmt-tree
+
+    fenix.stable.toolchain
   ];
 
   # Home Manager
