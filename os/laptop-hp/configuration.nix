@@ -6,6 +6,11 @@
 }:
 
 {
+
+  imports = [
+    ../common/steam.nix
+  ];
+
   # Boot
   boot = {
     plymouth = {
@@ -53,10 +58,19 @@
   # Other
   services.libinput.touchpad.disableWhileTyping = false;
 
-  # Programs
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
+  # Network
+  networking = {
+    interfaces.ens3 = {
+      ipv4.addresses = [
+        {
+          address = "192.168.1.156";
+          prefixLength = 24;
+        }
+      ];
+    };
+    defaultGateway = {
+      address = "192.168.1.1";
+      interface = "ens3";
+    };
   };
 }

@@ -1,12 +1,16 @@
-NixOS
-
+NixOS:
 ```
 sudo nixos-rebuild switch --flake .#<vm | laptop-hp>
 ```
 
-Home Manager
+Home Manager:
 ```
 home-manager switch --flake .#marc@<vm | laptop-hp>
+```
+
+Update packages:
+```
+sudo nix-channel --update
 ```
 
 Repair:

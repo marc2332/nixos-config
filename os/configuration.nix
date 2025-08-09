@@ -9,18 +9,19 @@
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
 
+  # Enable Flakes
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
 
   imports = [
-    ./jellyfin.nix
+    ./boot.nix
+    ./gnome.nix
+    ./programs.nix
+    ./security.nix
+    ./users.nix
   ];
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # Other
   services.openssh.enable = true;
@@ -57,6 +58,7 @@
     inter
   ];
 
+  # Apps I dont want
   environment.gnome.excludePackages = with pkgs; [
     cheese
     gnome-music
@@ -72,100 +74,8 @@
     simple-scan
   ];
 
-  # Users
-  users.users.marc = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkManager"
-      "video"
-    ];
-    description = "Marc";
-    shell = pkgs.nushell;
-    initialPassword = "initialPassword";
-  };
-
-  # Firefox
-  programs.firefox = {
-    enable = true;
-  };
-  environment.etc."firefox/policies/policies.json".text = lib.mkForce ''
-    {
-      "policies": {
-        "OfferToSaveLogins": false
-      }
-    }
-  '';
-
-  # Generic programs
-  documentation.nixos.enable = false;
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
-
-  # Root User
-  home-manager.users.root = {
-    home.stateVersion = "25.05";
-    programs = {
-      helix.enable = true;
-    };
-  };
-
-  # GNOME
-  services.xserver = {
-    enable = true;
-    xkb.layout = "es";
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
-    displayManager.gdm.wayland = false;
-  };
-  services.displayManager.defaultSession = "gnome";
-  services.displayManager.sessionPackages = [ pkgs.gnome-session.sessions ];
-  # GNOME Remote Desktop
-  services.gnome.gnome-remote-desktop.enable = true;
-  systemd.services.gnome-remote-desktop = {
-    wantedBy = [ "graphical.target" ];
-  };
-  # GNOME Keyring
-  services.gnome.gnome-keyring = {
-    enable = true;
-  };
-  security.pam.services.login.enableGnomeKeyring = true;
-
-  networking.firewall.allowedTCPPorts = [
-    # RDP
-    3389
-    # SSH
-    22
-  ];
-  networking.firewall.allowedUDPPorts = [
-    3389
-    22
-  ];
-
-  xdg = {
-    mime.enable = true;
-    portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      config.common = {
-        "default" = [
-          "gnome"
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
-        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-      };
-
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-gnome
-      ];
-    };
-  };
+  time.timeZone = "Europe/Madrid";
+  i18n.defaultLocale = "es_ES.UTF-8";
 
   #  networking.networkmanager.enable = true;
   #  networking.useDHCP = true;

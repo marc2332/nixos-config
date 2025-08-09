@@ -7,6 +7,8 @@
     home-manager.url = "github:nix-community/home-manager/release-25.05";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
   };
 
   outputs =
@@ -15,6 +17,7 @@
       nixpkgs,
       flake-utils,
       home-manager,
+      declarative-jellyfin,
       ...
     }@inputs:
     let
@@ -27,9 +30,10 @@
           system = "x86_64-linux";
           modules = [
             home-manager.nixosModules.home-manager
-            ./configuration.nix
-            ./laptop-hp/hardware-configuration.nix
-            ./laptop-hp/configuration.nix
+            declarative-jellyfin.nixosModules.default
+            ./os/configuration.nix
+            ./os/laptop-hp/hardware-configuration.nix
+            ./os/laptop-hp/configuration.nix
           ];
         };
 
@@ -37,9 +41,10 @@
           system = "x86_64-linux";
           modules = [
             home-manager.nixosModules.home-manager
-            ./configuration.nix
-            ./vm/hardware-configuration.nix
-            ./vm/configuration.nix
+            declarative-jellyfin.nixosModules.default
+            ./os/configuration.nix
+            ./os/vm/hardware-configuration.nix
+            ./os/vm/configuration.nix
             { networking.hostName = "vm"; }
           ];
         };
@@ -50,13 +55,13 @@
         "marc@laptop-hp" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home.nix ];
+          modules = [ ./home/home.nix ];
         };
 
         "marc@vm" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home.nix ];
+          modules = [ ./home/home.nix ];
         };
       };
     };

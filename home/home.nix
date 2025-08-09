@@ -178,9 +178,8 @@ in
     mkdir -p ~/Series
     mkdir -p ~/Movies
 
-    mkdir -p ~/Pictures
-    mkdir -p ~/Videos
-
+    mkdir -p ~/Services
+    mkdir -p ~/Services/jellyfin
 
     cp -r /home/marc/nixos-config/wallpapers /home/marc/Wallpapers
   '';
@@ -212,7 +211,7 @@ in
     };
     # Desktop Preferences
     "org/gnome/desktop/wm/preferences" = {
-      button-layout = "minimize,maximize,close";
+      button-layout = ":minimize,maximize,close";
     };
     # Desktop Keybinds
     "org/gnome/desktop/wm/keybinds" = {
