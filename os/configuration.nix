@@ -80,6 +80,9 @@
     iagno
     hitori
     simple-scan
+    geary
+    epiphany
+    decibels
   ];
 
   time.timeZone = "Europe/Madrid";
