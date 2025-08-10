@@ -16,6 +16,11 @@ home-manager switch --flake .#marc@<vm | laptop-hp>
 nh home switch ./flake.nix
 ```
 
+Start a devshell:
+```
+nix develop ~/nixos-config/flake.nix#<name>
+```
+
 Update packages:
 ```
 sudo nix-channel --update
