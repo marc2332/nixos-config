@@ -30,6 +30,8 @@
     }@inputs:
     let
       inherit (self) outputs;
+      system = "x86_64-linux";
+      pkgs = import inputs.nixpkgs { inherit system; };
     in
     {
       packages.x86_64-linux.default = [
@@ -81,6 +83,50 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/home.nix ];
         };
+      };
+
+      devShells.x86_64-linux = with pkgs; {
+        default =
+          let
+            toolchain =
+              (fenix.packages.x86_64-linux.fromToolchainName {
+                name = "stable";
+                sha256 = "+9FmLhAOezBZCOziO0Qct1NOrfpjNsXxc/8I0c7BdKE=";
+              }).toolchain;
+          in
+          mkShell {
+            packages = [ toolchain ];
+
+            shellHook = ''
+              if [[ -n "$SHELL_LABEL" ]]; then
+                  export SHELL_LABEL="''${SHELL_LABEL},rust-stable"
+              else
+                  export SHELL_LABEL="rust-stable"
+              fi
+              exec nu
+            '';
+          };
+
+        "rust-185" =
+          let
+            toolchain =
+              (fenix.packages.x86_64-linux.fromToolchainName {
+                name = "1.85";
+                sha256 = "Hn2uaQzRLidAWpfmRwSRdImifGUCAb9HeAqTYFXWeQk=";
+              }).toolchain;
+          in
+          mkShell {
+            packages = [ toolchain ];
+
+            shellHook = ''
+              if [[ -n "$SHELL_LABEL" ]]; then
+                  export SHELL_LABEL="''${SHELL_LABEL},rust-1.85"
+              else
+                  export SHELL_LABEL="rust-1.85"
+              fi
+              exec nu
+            '';
+          };
       };
     };
 }
