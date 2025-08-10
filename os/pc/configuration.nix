@@ -9,6 +9,7 @@
   imports = [
     ../common/jellyfin.nix
     ../common/steam.nix
+    ../common/solaar.nix
   ];
 
   # Cups

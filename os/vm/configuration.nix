@@ -9,6 +9,7 @@
   imports = [
     ./hardware-configuration.nix
     ../common/jellyfin.nix
+    ../common/solaar.nix
   ];
 
   # VM <-> Host Clipboard
