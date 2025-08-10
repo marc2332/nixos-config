@@ -76,6 +76,8 @@ in
       alias cc = cd $"($env.HOME)/nixos-config"
       alias pp = cd $"($env.HOME)/Projects"
       alias ll = cat $"($env.HOME)/nixos-config/README.md"
+
+      $env.Path = ($env.Path | prepend "~/.npm-global/bin")
     '';
 
     extraEnv = '''';
@@ -93,6 +95,11 @@ in
   programs.helix = {
     enable = true;
   };
+
+  # NPM
+  home.file.".npmrc".text = lib.mkForce ''
+    prefix=/home/marc/.npm-global
+  '';
 
   # Wezterm
   home.file.".wezterm.lua".text = lib.mkForce ''

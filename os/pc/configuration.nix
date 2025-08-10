@@ -10,6 +10,7 @@
     ../common/jellyfin.nix
     ../common/steam.nix
     ../common/solaar.nix
+    ../common/nodejs.nix
   ];
 
   # Cups
