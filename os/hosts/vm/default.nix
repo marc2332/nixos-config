@@ -7,9 +7,11 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../common/jellyfin.nix
-    ../common/solaar.nix
-    ../common/nodejs.nix
+    ../../default.nix
+    # Programs
+    ../../programs/jellyfin.nix
+    ../../programs/solaar.nix
+    ../../programs/nodejs.nix
   ];
 
   networking.hostName = "vm";

@@ -6,7 +6,6 @@
 }:
 
 {
-
   # GNOME
   services.xserver = {
     enable = true;
@@ -46,4 +45,38 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    # Remote desktop
+    gnome-remote-desktop
+    gnome-keyring
+    gnome-session
+    libsecret
+
+    # Extensions
+    gnomeExtensions.dash-to-dock
+  ];
+
+  # Apps I dont want
+  environment.gnome.excludePackages = with pkgs; [
+    cheese
+    gnome-music
+    gnome-contacts
+    gnome-maps
+    gnome-music
+    gnome-calendar
+    gnome-tour
+    yelp
+    gn
+    iagno
+    hitori
+    simple-scan
+    geary
+    epiphany
+    decibels
+  ];
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
+  };
 }

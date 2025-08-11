@@ -8,7 +8,10 @@
 {
 
   imports = [
-    ../common/steam.nix
+    ./hardware-configuration.nix
+    ../../default.nix
+    # Programs
+    ../../programs/steam.nix
   ];
 
   networking.hostName = "laptop-hp";

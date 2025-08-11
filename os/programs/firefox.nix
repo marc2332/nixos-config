@@ -6,7 +6,6 @@
 }:
 
 {
-
   # Firefox
   programs.firefox = {
     enable = true;
@@ -18,11 +17,4 @@
       }
     }
   '';
-
-  # Generic programs
-  documentation.nixos.enable = false;
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
 }

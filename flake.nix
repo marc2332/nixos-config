@@ -3,9 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    flake-utils.url = "github:numtide/flake-utils";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-utils.url = "github:numtide/flake-utils";
+
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
@@ -14,8 +16,6 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -45,9 +45,7 @@
           modules = [
             home-manager.nixosModules.home-manager
             declarative-jellyfin.nixosModules.default
-            ./os/configuration.nix
-            ./os/laptop-hp/hardware-configuration.nix
-            ./os/laptop-hp/configuration.nix
+            ./os/hosts/laptop-hp
           ];
         };
 
@@ -56,9 +54,7 @@
           modules = [
             home-manager.nixosModules.home-manager
             declarative-jellyfin.nixosModules.default
-            ./os/configuration.nix
-            ./os/vm/hardware-configuration.nix
-            ./os/vm/configuration.nix
+            ./os/hosts/vm
             {
               nixpkgs.overlays = [ fenix.overlays.default ];
             }
@@ -72,8 +68,7 @@
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
-            ./home/home.nix
-            ./home/hosts/laptop-hp/home.nix
+            ./home/hosts/laptop-hp
           ];
         };
 
@@ -81,8 +76,7 @@
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
-            ./home/home.nix
-            ./home/hosts/vm/home.nix
+            ./home/hosts/vm
           ];
         };
       };

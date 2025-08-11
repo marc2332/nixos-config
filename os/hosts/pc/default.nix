@@ -7,10 +7,14 @@
 
 {
   imports = [
-    ../common/jellyfin.nix
-    ../common/steam.nix
-    ../common/solaar.nix
-    ../common/nodejs.nix
+    ../../default.nix
+    # Programs
+    ../../programs/jellyfin.nix
+    ../../programs/steam.nix
+    ../../programs/solaar.nix
+    ../../programs/nodejs.nix
+    # Services
+    ../../services/cups.nix
   ];
 
   networking.hostName = "pc";

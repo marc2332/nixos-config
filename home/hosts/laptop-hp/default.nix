@@ -4,6 +4,6 @@
 
 {
   imports = [
-    ../../mail.nix
+    ../../default.nix
   ];
 }
