@@ -76,6 +76,7 @@ in
       alias cc = cd $"($env.HOME)/nixos-config"
       alias pp = cd $"($env.HOME)/Projects"
       alias ll = cat $"($env.HOME)/nixos-config/README.md"
+      alias ss = nu $"($env.HOME)/nixos-config/scripts/status.nu"
 
       $env.Path = ($env.Path | prepend "~/.npm-global/bin")
     '';
