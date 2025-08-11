@@ -59,13 +59,9 @@
             ./os/configuration.nix
             ./os/vm/hardware-configuration.nix
             ./os/vm/configuration.nix
-            { networking.hostName = "vm"; }
-            (
-              { pkgs, ... }:
-              {
-                nixpkgs.overlays = [ fenix.overlays.default ];
-              }
-            )
+            {
+              nixpkgs.overlays = [ fenix.overlays.default ];
+            }
           ];
         };
       };

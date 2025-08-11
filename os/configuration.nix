@@ -88,6 +88,13 @@
   time.timeZone = "Europe/Madrid";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  system.activationScripts.hideRootUserFromGdm.text = ''
+        echo "
+    [User]
+    SystemAccount=true
+    " > /var/lib/AccountsService/users/root
+  '';
+
   # DO NOT CHANGE!
   system.stateVersion = "25.05";
 }

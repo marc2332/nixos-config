@@ -13,6 +13,8 @@
     ../common/nodejs.nix
   ];
 
+  networking.hostName = "pc";
+
   # Cups
   services.printing.enable = true;
 

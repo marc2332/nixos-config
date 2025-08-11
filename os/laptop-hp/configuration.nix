@@ -11,15 +11,16 @@
     ../common/steam.nix
   ];
 
+  networking.hostName = "laptop-hp";
+
   # Boot
   boot = {
     plymouth = {
       enable = true;
-      theme = "abstract_ring";
+      theme = "blockchain";
       themePackages = with pkgs; [
-        # By default we would install all themes
         (adi1090x-plymouth-themes.override {
-          selected_themes = [ "abstract_ring" ];
+          selected_themes = [ "blockchain" ];
         })
       ];
     };
