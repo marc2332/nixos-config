@@ -46,8 +46,10 @@
     mkdir -p ~/Series
     mkdir -p ~/Movies
 
-    mkdir -p ~/Services
+    mkdir -p ~/Services/docker    
     mkdir -p ~/Services/jellyfin
+    mkdir -p ~/Services/protonmail-bridge
+    mkdir -p ~/Services/thunderbird/Marc
 
     cp -r /home/marc/nixos-config/wallpapers /home/marc/Wallpapers
   '';

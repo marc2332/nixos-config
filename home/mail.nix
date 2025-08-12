@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./external/thunderbird.nix
+  ];
+
   accounts.email.accounts = {
     "mespinsanz@gmail.com" = {
       address = "mespinsanz@gmail.com";
@@ -10,7 +14,8 @@
       imap.host = "imap.gmail.com";
       imap.port = 993;
       imap.tls.enable = true;
-      thunderbird = {
+      aerc.imapAuth = "xoauth2";
+      thunderbird-extra = {
         enable = true;
         profiles = [ "Marc" ];
       };
@@ -24,7 +29,7 @@
       imap.tls.useStartTls = true;
       smtp.host = "127.0.0.1";
       smtp.port = 1025;
-      thunderbird = {
+      thunderbird-extra = {
         enable = true;
         profiles = [ "Marc" ];
       };
@@ -32,11 +37,12 @@
   };
 
   # Thunderbird
-  programs.thunderbird = {
+  programs.thunderbird-extra = {
     enable = true;
     profiles = {
       "Marc" = {
         isDefault = true;
+        absolutePath = "/home/marc/Services/thunderbird/Marc";
       };
     };
   };
@@ -49,13 +55,20 @@
   systemd.user.services.protonmail-bridge = {
     Unit = {
       Description = "Start Proton Mail Bridge";
+      PartOf = "graphical-session.target";
     };
     Install = {
-      WantedBy = [ "default.target" ];
+      WantedBy = [ "graphical-session.target" ];
     };
     Service = {
+      Type = "simple";
+      Environment = [
+        "XDG_CONFIG_HOME=/home/marc/Services/protonmail-bridge/config"
+        "XDG_CACHE_HOME=/home/marc/Services/protonmail-bridge/cache"
+        "XDG_DATA_HOME=/home/marc/Services/protonmail-bridge/data"
+      ];
       ExecStart = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --noninteractive";
-      Restart = "yes";
+      Restart = "on-failure";
     };
   };
 }
