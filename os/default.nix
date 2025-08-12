@@ -24,7 +24,6 @@
     # Programs
     ./programs/firefox.nix
     ./programs/nh.nix
-    ./programs/firefox.nix
   ];
 
   # Other
