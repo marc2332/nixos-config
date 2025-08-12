@@ -1,4 +1,3 @@
-print "hi"
 if (systemctl is-active --user protonmail-bridge.service | str trim) == "active" {
     print "🌉 ✅ Proton Mail bridge is running."
 } else {
