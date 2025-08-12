@@ -52,7 +52,7 @@
     mkdir -p ~/Services/protonmail-bridge
     mkdir -p ~/Services/thunderbird/Marc
 
-    cp -r /home/marc/nixos-config/wallpapers /home/marc/Wallpapers
+    cp -r /home/marc/nixos-config/wallpapers /home/marc
   '';
 
   home.stateVersion = "25.05";

@@ -11,8 +11,8 @@
   dconf.settings = {
     # Wallpaper
     "org/gnome/desktop/background" = {
-      picture-uri = "file:///home/marc/Wallpapers/bridge";
-      picture-uri-dark = "file:///home/marc/Wallpapers/bridge";
+      picture-uri = "file:///home/marc/wallpapers/sky.jpg";
+      picture-uri-dark = "file:///home/marc/wallpapers/sky.jpg";
     };
     # Peripherals
     "org/gnome/desktop/peripherals/touchpad" = {
