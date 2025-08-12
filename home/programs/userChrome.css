@@ -1,0 +1,295 @@
+/* {
+    font-family: "Inter Variable";
+}*/
+
+/* CUSTOM BY MARC: INTEGRATE WNDOW BUTTONS */
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/window_control_placeholder_support.css made available under Mozilla Public License v. 2.0
+          See the above repository for updates as well as full license text. */
+
+/*
+          Creates placeholders for window controls.
+          This is a supporting file used by other stylesheets and is mostly
+          unnecessary if window titlebar is enabled.
+
+          Should preferably be imported before other stylesheets, because some values in this style are deliberately overridden by other styles.
+          */
+
+/* Modify these values to match your preferences
+          These reserve extra space on both sides of the nav-bar to be able to drag the window */
+:root:is([tabsintitlebar], [sizemode="fullscreen"]) {
+    --uc-window-drag-space-pre: 5px;
+    /* left side*/
+    --uc-window-drag-space-post: 0px;
+    /* right side*/
+}
+
+:root:is([tabsintitlebar][sizemode="maximized"], [sizemode="fullscreen"]) {
+    --uc-window-drag-space-pre: 0px;
+    /* Remove pre space */
+}
+
+/* Default width - used on Windows10+ */
+:root:is([tabsintitlebar], [sizemode="fullscreen"]) {
+    --uc-window-control-width: 138px;
+}
+
+@media (-moz-platform: windows-win7),
+(-moz-platform: windows-win8) {
+    :root:is([tabsintitlebar], [sizemode="fullscreen"]) {
+        --uc-window-control-width: 105px;
+    }
+}
+
+/* On linux set width based on number of caption buttons.
+            One button */
+@media (-moz-gtk-csd-minimize-button),
+(-moz-gtk-csd-maximize-button),
+(-moz-gtk-csd-close-button) {
+    :root:is([tabsintitlebar], [sizemode="fullscreen"]) {
+        --uc-window-control-width: 28px;
+    }
+}
+
+/* Two buttons */
+@media (-moz-gtk-csd-minimize-button) and (-moz-gtk-csd-maximize-button),
+(-moz-gtk-csd-minimize-button) and (-moz-gtk-csd-close-button),
+(-moz-gtk-csd-maximize-button) and (-moz-gtk-csd-close-button) {
+    :root:is([tabsintitlebar], [sizemode="fullscreen"]) {
+        --uc-window-control-width: 56px;
+    }
+}
+
+/* Three buttons */
+@media (-moz-gtk-csd-minimize-button) and (-moz-gtk-csd-maximize-button) and (-moz-gtk-csd-close-button) {
+    :root:is([tabsintitlebar], [sizemode="fullscreen"]) {
+        --uc-window-control-width: 84px;
+    }
+}
+
+@media (-moz-platform: macos) {
+    :root:is([tabsintitlebar]) {
+        --uc-window-control-width: 72px;
+    }
+
+    :root:is([tabsintitlebar][sizemode="fullscreen"]) {
+        --uc-window-control-width: 0;
+    }
+}
+
+.titlebar-buttonbox {
+    color: var(--toolbar-color)
+}
+
+:root[sizemode="fullscreen"] .titlebar-buttonbox-container {
+    display: none
+}
+
+:root[sizemode="fullscreen"] #TabsToolbar>.titlebar-buttonbox-container:last-child {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    height: 40px;
+}
+
+:root[sizemode="fullscreen"] #TabsToolbar>.titlebar-buttonbox-container:last-child {
+    height: 32px
+}
+
+#nav-bar {
+    border-inline: var(--uc-window-drag-space-pre, 0px) solid transparent;
+    border-inline-style: solid !important;
+    border-right-width: calc(var(--uc-window-control-width, 0px) + var(--uc-window-drag-space-post, 0px));
+    background-clip: border-box !important;
+}
+
+/* Rules for window controls on left layout */
+@media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled"),
+(-moz-gtk-csd-reversed-placement),
+(-moz-platform: macos) {
+    :root[tabsintitlebar="true"] #nav-bar {
+        border-inline-width: calc(var(--uc-window-control-width, 0px) + var(--uc-window-drag-space-post, 0px)) var(--uc-window-drag-space-pre, 0px)
+    }
+
+    :root[sizemode="fullscreen"] #TabsToolbar>.titlebar-buttonbox-container:last-child {
+        right: unset
+    }
+}
+
+@media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled") {
+    .titlebar-buttonbox-container {
+        order: -1 !important;
+    }
+
+    .titlebar-buttonbox {
+        flex-direction: row-reverse;
+    }
+}
+
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/tabs_on_bottom.css made available under Mozilla Public License v. 2.0
+            See the above repository for updates as well as full license text. */
+
+/* IMPORTANTGet window_control_placeholder_support.css
+            Window controls will be all wrong without it.
+            Additionally on Linux, you may need to get:
+            linux_gtk_window_control_patch.css
+            
+            Use tabs_on_bottom_menubar_on_top_patch.css if you
+            have menubar permanently enabled and want it on top 
+            */
+
+#toolbar-menubar[autohide="true"]>.titlebar-buttonbox-container,
+#TabsToolbar>.titlebar-buttonbox-container {
+    position: fixed;
+    display: block;
+    top: 0px;
+    right: 0;
+    height: 40px;
+}
+
+@media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled"),
+(-moz-gtk-csd-reversed-placement),
+(-moz-platform: macos) {
+    .titlebar-buttonbox-container {
+        left: 0;
+        right: unset !important;
+    }
+}
+
+:root[uidensity="compact"] #TabsToolbar>.titlebar-buttonbox-container {
+    height: 32px
+}
+
+#toolbar-menubar[inactive]>.titlebar-buttonbox-container {
+    opacity: 0
+}
+
+.titlebar-buttonbox-container>.titlebar-buttonbox {
+    height: 100%;
+}
+
+#titlebar {
+    order: 2;
+    -moz-appearance: none !important;
+    --tabs-navbar-shadow-size: 0px;
+    --uc-menubar-vertical-overlap: 19px;
+    /* for hide_tabs_with_one_tab_w_window_controls.css compatibility */
+}
+
+/* Re-order window and tab notification boxes */
+#navigator-toolbox>div {
+    display: contents
+}
+
+.global-notificationbox,
+#tab-notification-deck {
+    order: 2;
+}
+
+#TabsToolbar .titlebar-spacer {
+    display: none;
+}
+
+/* Also hide the toolbox bottom border which isn't at bottom with this setup */
+#navigator-toolbox::after {
+    display: none !important;
+}
+
+@media (-moz-gtk-csd-close-button) {
+    .titlebar-button {
+        flex-direction: column;
+    }
+}
+
+/* At Activated Menubar */
+:root:not([chromehidden~="menubar"], [sizemode="fullscreen"]) #toolbar-menubar:not([autohide="true"])+#TabsToolbar>.titlebar-buttonbox-container {
+    display: block !important;
+}
+
+#toolbar-menubar:not([autohide="true"])>.titlebar-buttonbox-container {
+    visibility: hidden;
+}
+
+/* These exist only for compatibility with autohide-tabstoolbar.css */
+toolbox#navigator-toolbox>toolbar#nav-bar.browser-toolbar {
+    animation: none;
+}
+
+#navigator-toolbox:hover #TabsToolbar {
+    animation: slidein ease-out 48ms 1
+}
+
+#TabsToolbar>.titlebar-buttonbox-container {
+    visibility: visible
+}
+
+:root:not([lwtheme]) #navigator-toolbox {
+    background-color: -moz-dialog
+}
+
+/* Uncomment the following if you want bookmarks toolbar to be below tabs */
+/*
+            #PersonalToolbar{
+            order: 2;
+            }
+            */
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/tabs_fill_available_width.css made available under Mozilla Public License v. 2.0
+            See the above repository for updates as well as full license text. */
+
+/* Why 100vw? Tab closing requires width animation to end and "none" can't be animated */
+.tabbrowser-tab[fadein]:not([style^="max-width"]) {
+    max-width: 100vw !important
+}
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/centered_tab_content.css made available under Mozilla Public License v. 2.0
+            See the above repository for updates as well as full license text. */
+.tabbrowser-tab[selected]:not(:hover):not([pinned]) .tab-label-container,
+#tabbrowser-tabs:not([closebuttons="activetab"]) .tabbrowser-tab:not(:hover):not([pinned]) .tab-label-container {
+    padding-inline-end: 6px !important;
+}
+
+.tab-icon-stack {
+    margin-inline-start: auto
+}
+
+.tab-label-container {
+    max-width: min-content;
+    margin-inline-end: auto;
+}
+
+
+/* ########  Sidetabs Styles  ######### */
+/* ~~~~~~ Hidden elements styles ~~~~~~~ */
+#TabsToolbar>:not(.titlebar-buttonbox-container) {
+    display: none !important;
+}
+
+#navigator-toolbox {
+    /*This rule has no effect on windows*/
+    background: var(--toolbar-bgcolor) !important
+}
+
+@media not (-moz-platform: macos),
+(-moz-mac-rtl) {
+    #TabsToolbar>.titlebar-buttonbox-container {
+        margin-left: auto !important;
+    }
+}
+
+@media (-moz-platform: macos) {
+    #TabsToolbar>.titlebar-buttonbox-container {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+#sidebar-header {
+    display: none !important;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* #################################### */

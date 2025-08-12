@@ -21,6 +21,7 @@
     ./programs/node.nix
     ./programs/nushell.nix
     ./programs/wezterm.nix
+    ./programs/firefox.nix
   ];
 
   # Allow non-free packages

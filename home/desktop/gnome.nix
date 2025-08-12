@@ -26,7 +26,7 @@
         "code.desktop"
         "org.wezfurlong.wezterm.desktop"
         "org.gnome.Nautilus.desktop"
-        "org.mozilla.Thunderbird.desktop"
+        "thunderbird.desktop"
       ];
 
       # Enable GNOME Extensions
