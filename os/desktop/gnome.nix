@@ -54,6 +54,7 @@
 
     # Extensions
     gnomeExtensions.dash-to-dock
+    gnomeExtensions.rounded-window-corners-reborn
   ];
 
   # Apps I dont want

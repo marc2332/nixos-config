@@ -32,6 +32,7 @@
       # Enable GNOME Extensions
       enabled-extensions = [
         pkgs.gnomeExtensions.dash-to-dock.extensionUuid
+        pkgs.gnomeExtensions.rounded-window-corners-reborn.extensionUuid
       ];
     };
     # Desktop Preferences
