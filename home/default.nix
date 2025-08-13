@@ -22,6 +22,7 @@
     ./programs/nushell.nix
     ./programs/wezterm.nix
     ./programs/firefox.nix
+    ./programs/gitui.nix
   ];
 
   # Allow non-free packages

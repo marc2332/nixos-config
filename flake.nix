@@ -34,9 +34,10 @@
       pkgs = import inputs.nixpkgs { inherit system; };
     in
     {
-      packages.x86_64-linux.default = [
+      packages.default = [
         fenix.packages.x86_64-linux.minimal.toolchain
       ];
+      packages.gitui = import ./pkgs/gitui.nix { inherit pkgs; };
 
       # NixOS
       nixosConfigurations = {
@@ -65,7 +66,7 @@
       # Home Manager
       homeConfigurations = {
         "marc@laptop-hp" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          inherit pkgs;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             ./home/hosts/laptop-hp
@@ -73,7 +74,7 @@
         };
 
         "marc@vm" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          inherit pkgs;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             ./home/hosts/vm
