@@ -48,10 +48,19 @@
       }
 
       alias hh = cd $env.HOME
-      alias cc = cd $"($env.HOME)/nixos-config"
-      alias pp = cd $"($env.HOME)/Projects"
-      alias ll = cat $"($env.HOME)/nixos-config/README.md"
-      alias ss = nu $"($env.HOME)/nixos-config/scripts/status.nu"
+      alias cc = cd ~/nixos-config
+      alias pp = cd ~/Projects
+      alias ll = cat~/nixos-config/README.md
+      alias ss = nu ~/nixos-config/scripts/status.nu
+      def dd [] {
+          $env.SHELL_LABEL = (if $env.SHELL_LABEL? != null and $env.SHELL_LABEL != "" {
+              $"($env.SHELL_LABEL),dev"
+          } else {
+              "dev"
+          })
+          nix develop -c nu
+      }
+      alias rr = nix develop ~/nixos-config#default
 
       $env.Path = ($env.Path | prepend "~/.npm-global/bin")
     '';
