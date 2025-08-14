@@ -10,7 +10,6 @@
     ../../default.nix
     # Programs
     ../../programs/jellyfin.nix
-    ../../programs/solaar.nix
     ../../programs/nodejs.nix
     ../../programs/docker.nix
   ];

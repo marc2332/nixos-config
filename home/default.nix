@@ -17,12 +17,14 @@
     ./programs/fenix.nix
     ./programs/gh.nix
     ./programs/git.nix
-    ./programs/hx.nix
+    ./programs/helix.nix
     ./programs/node.nix
     ./programs/nushell.nix
     ./programs/wezterm.nix
     ./programs/firefox.nix
     ./programs/gitui.nix
+    ./programs/jellyfin.nix
+    ./programs/vscode.nix
   ];
 
   # Allow non-free packages

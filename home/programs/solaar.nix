@@ -1,13 +1,12 @@
 { pkgs, lib, ... }:
 
 {
-  environment.systemPackages = [
+  home.packages = [
     pkgs.solaar
   ];
 
-  system.activationScripts.createSolaarConfig.text = ''
-    mkdir -p /home/marc/.config/solaar
-    echo "%YAML 1.3
+  home.file.".config/solaar".text = lib.mkForce ''
+    %YAML 1.3
     ---
     - Test: [thumb_wheel_down, 15]
     - KeyPress:
@@ -19,6 +18,6 @@
     - KeyPress:
       - [Control_L, Tab]
       - click
-    ..." > /home/marc/.config/solaar/rules.yml
+    ...
   '';
 }

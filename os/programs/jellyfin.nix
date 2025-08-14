@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    # Desktop Client
-    jellyfin-media-player
-  ];
-
   services.declarative-jellyfin = {
     enable = true;
 

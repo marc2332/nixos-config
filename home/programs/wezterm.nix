@@ -7,6 +7,10 @@
 }:
 
 {
+  home.packages = [
+    pkgs.wezterm
+  ];
+
   home.file.".wezterm.lua".text = lib.mkForce ''
     local wezterm = require('wezterm')
 

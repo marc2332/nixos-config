@@ -34,18 +34,9 @@
     # Nix formatting
     pkgs.nixfmt-rfc-style
 
-    # Helix Editor
-    wl-clipboard
-
-    # VSC
-    vscode
-
     # Git Signing
     gnupg
     pinentry-gnome3
-
-    # Wezterm
-    wezterm
 
     # Fonts
     cascadia-code
